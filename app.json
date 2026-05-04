@@ -2,7 +2,7 @@
   "expo": {
     "name": "Diana Travel",
     "slug": "diana-travel-mobile",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "diana-travel-mobile",
@@ -16,15 +16,16 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.fdianatravel.app",
-      "buildNumber": "1"
+      "buildNumber": "2"
     },
     "android": {
       "package": "com.fdianatravel.app",
-      "versionCode": 1,
+      "versionCode": 2,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/icon.png",
         "backgroundColor": "#D13434"
-      }
+      },
+      "permissions": []
     },
     "web": {
       "favicon": "./assets/images/icon.png"
