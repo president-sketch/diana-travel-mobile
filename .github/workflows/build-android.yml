@@ -29,12 +29,41 @@ jobs:
       - name: Install dependencies
         run: npm install --legacy-peer-deps
 
-      - name: Expo Prebuild (generate native Android)
+      - name: Expo Prebuild
         run: npx expo prebuild --platform android --clean
         env:
           EXPO_PUBLIC_DOMAIN: fdianatravel.com
 
-      - name: Build Android AAB (unsigned - for Play App Signing)
+      - name: Generate release keystore
+        run: |
+          keytool -genkeypair \
+            -alias diana-travel \
+            -keyalg RSA \
+            -keysize 2048 \
+            -validity 10000 \
+            -keystore $GITHUB_WORKSPACE/release.keystore \
+            -storepass Diana2024! \
+            -keypass Diana2024! \
+            -dname "CN=Diana Travel, OU=Mobile, O=Diana Travel, L=Beirut, ST=Beirut, C=LB"
+
+      - name: Configure release signing in build.gradle
+        run: |
+          cat >> android/app/build.gradle << 'GRADLE'
+
+          android.signingConfigs {
+            release {
+              storeFile = file("$System.env.GITHUB_WORKSPACE/release.keystore")
+              storePassword = "Diana2024!"
+              keyAlias = "diana-travel"
+              keyPassword = "Diana2024!"
+            }
+          }
+          android.buildTypes.release {
+            signingConfig = android.signingConfigs.release
+          }
+          GRADLE
+
+      - name: Build signed Android AAB
         run: |
           cd android
           chmod +x gradlew
