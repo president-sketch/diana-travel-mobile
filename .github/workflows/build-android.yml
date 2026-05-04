@@ -37,7 +37,6 @@ jobs:
       - name: Remove unwanted permissions from AndroidManifest
         run: |
           MANIFEST=android/app/src/main/AndroidManifest.xml
-          # Remove CAMERA, RECORD_AUDIO, READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE, ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION
           sed -i '/<uses-permission android:name="android.permission.CAMERA"/d' $MANIFEST
           sed -i '/<uses-permission android:name="android.permission.RECORD_AUDIO"/d' $MANIFEST
           sed -i '/<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/d' $MANIFEST
@@ -48,17 +47,10 @@ jobs:
           echo "=== Final permissions in manifest ==="
           grep "uses-permission" $MANIFEST || echo "No permissions found"
 
-      - name: Generate release keystore
+      - name: Restore release keystore
         run: |
-          keytool -genkeypair \
-            -alias diana-travel \
-            -keyalg RSA \
-            -keysize 2048 \
-            -validity 10000 \
-            -keystore $GITHUB_WORKSPACE/release.keystore \
-            -storepass Diana2024! \
-            -keypass Diana2024! \
-            -dname "CN=Diana Travel, OU=Mobile, O=Diana Travel, L=Beirut, ST=Beirut, C=LB"
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > $GITHUB_WORKSPACE/release.keystore
+          echo "Keystore restored"
 
       - name: Configure release signing in build.gradle
         run: |
