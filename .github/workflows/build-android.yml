@@ -1,0 +1,73 @@
+name: Build Android AAB
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps
+
+      - name: Generate keystore
+        run: |
+          keytool -genkeypair \
+            -alias diana-travel \
+            -keyalg RSA \
+            -keysize 2048 \
+            -validity 10000 \
+            -keystore diana-travel.keystore \
+            -storepass dianatravel2024 \
+            -keypass dianatravel2024 \
+            -dname "CN=Diana Travel, OU=Mobile, O=Diana Travel, L=Dubai, ST=Dubai, C=AE"
+
+      - name: Expo Prebuild (generate native Android)
+        run: npx expo prebuild --platform android --clean
+        env:
+          EXPO_PUBLIC_DOMAIN: fdianatravel.com
+
+      - name: Build Android AAB
+        run: |
+          cd android
+          chmod +x gradlew
+          ./gradlew bundleRelease
+        env:
+          ANDROID_HOME: ${{ env.ANDROID_HOME }}
+
+      - name: Sign AAB
+        run: |
+          jarsigner -verbose \
+            -sigalg SHA256withRSA \
+            -digestalg SHA-256 \
+            -keystore diana-travel.keystore \
+            -storepass dianatravel2024 \
+            -keypass dianatravel2024 \
+            android/app/build/outputs/bundle/release/app-release.aab \
+            diana-travel
+
+      - name: Upload AAB artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: diana-travel-release.aab
+          path: android/app/build/outputs/bundle/release/app-release.aab
+          retention-days: 90
