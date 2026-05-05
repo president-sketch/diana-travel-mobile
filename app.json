@@ -2,7 +2,7 @@
   "expo": {
     "name": "Diana Travel",
     "slug": "diana-travel-mobile",
-    "version": "1.0.1",
+    "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "diana-travel-mobile",
@@ -15,17 +15,17 @@
     },
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "com.fdianatravel.app",
-      "buildNumber": "2"
+      "bundleIdentifier": "com.dianatravel.app",
+      "buildNumber": "1"
     },
     "android": {
-      "package": "com.fdianatravel.app",
-      "versionCode": 2,
+      "package": "com.dianatravel.app",
+      "versionCode": 3,
+      "permissions": [],
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/icon.png",
         "backgroundColor": "#D13434"
-      },
-      "permissions": []
+      }
     },
     "web": {
       "favicon": "./assets/images/icon.png"
@@ -43,6 +43,12 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "d029df9a-c587-469c-82bb-aeb2ba02251a"
+      }
+    },
+    "owner": "elcheikhghouzayels-organization"
   }
 }
