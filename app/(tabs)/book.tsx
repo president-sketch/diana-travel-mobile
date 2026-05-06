@@ -1,6 +1,8 @@
 import { Feather } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
+import { requestTrackingPermissionsAsync } from "expo-tracking-transparency";
 import * as WebBrowser from "expo-web-browser";
+import { useEffect } from "react";
 import { Image } from "react-native";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -18,6 +20,10 @@ const FEATURES = [
 export default function BookScreen() {
   const colors = useColors();
   const insets = useSafeAreaInsets();
+
+  useEffect(() => {
+    requestTrackingPermissionsAsync();
+  }, []);
 
   const openBooking = async () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
