@@ -16,14 +16,11 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.dianatravel.app",
-      "buildNumber": "2",
-      "infoPlist": {
-        "NSUserTrackingUsageDescription": "This app opens an external booking portal that may use cookies. Please allow tracking to continue, or deny to open the portal without tracking consent."
-      }
+      "buildNumber": "3"
     },
     "android": {
       "package": "com.dianatravel.app",
-      "versionCode": 5,
+      "versionCode": 6,
       "permissions": [],
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/icon.png",
@@ -41,8 +38,7 @@
         }
       ],
       "expo-font",
-      "expo-web-browser",
-      "expo-tracking-transparency"
+      "expo-web-browser"
     ],
     "experiments": {
       "typedRoutes": true,
