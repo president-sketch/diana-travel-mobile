@@ -1,9 +1,6 @@
 import { Feather } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
-import { requestTrackingPermissionsAsync } from "expo-tracking-transparency";
-import * as WebBrowser from "expo-web-browser";
-import { useEffect } from "react";
-import { Image } from "react-native";
+import { Image, Linking } from "react-native";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useColors } from "@/hooks/useColors";
@@ -21,18 +18,9 @@ export default function BookScreen() {
   const colors = useColors();
   const insets = useSafeAreaInsets();
 
-  useEffect(() => {
-    requestTrackingPermissionsAsync();
-  }, []);
-
   const openBooking = async () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-    await WebBrowser.openBrowserAsync(BOOKING_URL, {
-      presentationStyle: WebBrowser.WebBrowserPresentationStyle.FULL_SCREEN,
-      toolbarColor: "#D13434",
-      controlsColor: "#ffffff",
-      enableBarCollapsing: true,
-    });
+    await Linking.openURL(BOOKING_URL);
   };
 
   return (
@@ -67,7 +55,7 @@ export default function BookScreen() {
       </Pressable>
 
       <Text style={[styles.hint, { color: colors.mutedForeground }]}>
-        Opens securely in your browser
+        Opens in Safari — outside the app
       </Text>
 
       {/* Features Grid */}
