@@ -47,7 +47,8 @@
     "extra": {
       "eas": {
         "projectId": "d029df9a-c587-469c-82bb-aeb2ba02251a"
-      }
+      },
+      "privacyPolicyUrl": "https://diana-travel-gateway.replit.app/privacy.html"
     },
     "owner": "elcheikhghouzayels-organization"
   }
